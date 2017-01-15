@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import pl.parser.nbp.Util;
+import pl.parser.nbp.MathUtil;
 
 public class CheckInput {
 
@@ -16,7 +16,7 @@ public class CheckInput {
 		List<InputData> input = CSVReader.reader();
 		input.add(new InputData("EUR", "2016-10-10", "2016-01-01"));
 
-		input.stream().forEach(s -> assertTrue(Util.checkDate(s.getCurrency())));
+		input.stream().forEach(s -> assertTrue(MathUtil.checkDate(s.getCurrency())));
 
 	}
 

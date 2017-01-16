@@ -5,9 +5,9 @@ import java.util.logging.Logger;
 
 import pl.parser.nbp.errors.ClientCreationCurrencyError;
 import pl.parser.nbp.errors.ClientCreationDateError;
-import pl.parser.nbp.utils.InputValidator;
 import pl.parser.nbp.utils.MathUtil;
 import pl.parser.nbp.utils.UrlCreator;
+import pl.parser.nbp.validator.InputValidator;
 
 public class MainClass {
 
@@ -21,8 +21,8 @@ public class MainClass {
 			String startDate = args[1];
 			String stopDate = args[2];
 
-			InputValidator inputValidator = new InputValidator(code, startDate, stopDate);
-			inputValidator.validate();
+			InputValidator inputValidator = new InputValidator();
+			inputValidator.validate(code, startDate, stopDate);
 
 			String url = UrlCreator.buildURL(code, startDate, stopDate);
 

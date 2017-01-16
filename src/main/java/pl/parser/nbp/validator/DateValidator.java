@@ -1,4 +1,4 @@
-package pl.parser.nbp.utils;
+package pl.parser.nbp.validator;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

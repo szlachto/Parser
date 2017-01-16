@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import pl.parser.nbp.utils.DateValidator;
+import pl.parser.nbp.validator.DateValidator;
 
 public class CheckDate {
 

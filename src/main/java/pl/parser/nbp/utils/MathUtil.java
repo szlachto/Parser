@@ -1,24 +1,20 @@
-package pl.parser.nbp;
+package pl.parser.nbp.utils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MathUtil {
 
-	public static boolean checkDate(String date) {
-		return false;
-	}
-
-	public static double getAverage(ArrayList<Double> list) {
+	public static double getAverage(List<Double> list) {
 
 		return list.stream().mapToDouble(i -> i).average().orElse(0.0);
 	}
 
-	public static double getStdDev(ArrayList<Double> list) {
+	public static double getStdDev(List<Double> list) {
 
 		return Math.sqrt(getVariance(list));
 	}
 
-	static double getVariance(ArrayList<Double> list) {
+	public static double getVariance(List<Double> list) {
 		double[] data = list.stream().mapToDouble(d -> d).toArray();
 		int size = data.length;
 		double mean = getMean(data, size);
@@ -28,7 +24,7 @@ public class MathUtil {
 		return (size != 0) ? (temp / size) : 0;
 	}
 
-	static double getMean(double[] data, int size) {
+	public static double getMean(double[] data, int size) {
 		double sum = 0.0;
 		for (double a : data)
 			sum += a;

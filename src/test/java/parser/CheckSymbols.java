@@ -5,21 +5,21 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import pl.parser.nbp.SymbolUtil;
+import pl.parser.nbp.utils.CurrencySymbols;
 
 public class CheckSymbols {
 
 	@Test
 	public void checkSymbols() {
-		assertTrue(SymbolUtil.contains("USD"));
-		assertTrue(SymbolUtil.contains("EUR"));
-		assertTrue(SymbolUtil.contains("CHF"));
-		assertTrue(SymbolUtil.contains("GBP"));
+		assertTrue(CurrencySymbols.contains("USD"));
+		assertTrue(CurrencySymbols.contains("EUR"));
+		assertTrue(CurrencySymbols.contains("CHF"));
+		assertTrue(CurrencySymbols.contains("GBP"));
 
-		assertFalse(SymbolUtil.contains(""));
-		assertFalse(SymbolUtil.contains("EURO"));
-		assertFalse(SymbolUtil.contains(null));
-		assertFalse(SymbolUtil.contains("1"));
+		assertFalse(CurrencySymbols.contains(""));
+		assertFalse(CurrencySymbols.contains("EURO"));
+		assertFalse(CurrencySymbols.contains(null));
+		assertFalse(CurrencySymbols.contains("1"));
 	}
 
 }

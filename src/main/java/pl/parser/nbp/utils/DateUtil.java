@@ -1,15 +1,21 @@
-package pl.parser.nbp;
+package pl.parser.nbp.utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DateUtil {
+
+	private static final Logger LOGGER = Logger.getLogger(DateUtil.class.getName());
 
 	public static boolean validateDates(String start, String stop) {
 
 		final LocalDate INIT_DATE = LocalDate.parse("2002-01-02");
 		final LocalDate NOW = LocalDate.now();
+		final int MAX_DAY_PERIOD = 93;
+		final int MIN_DAY_PERIOD = 1;
 
 		LocalDate startDate, stopDate;
 
@@ -17,9 +23,9 @@ public class DateUtil {
 
 			if (!INIT_DATE.isAfter(startDate) && !stopDate.isAfter(NOW)) {
 
-				long period = checkDaysBetween(startDate, stopDate);
+				long period = ChronoUnit.DAYS.between(startDate, stopDate);
 
-				if (period >= 0 && period <= 93) {
+				if (period >= MIN_DAY_PERIOD && period <= MAX_DAY_PERIOD) {
 
 					return true;
 
@@ -40,19 +46,15 @@ public class DateUtil {
 
 		} catch (DateTimeParseException e) {
 
-			System.out.println("DataTimeParseException: " + date);
+			LOGGER.log(Level.SEVERE, "Exception occur", e);
 
 		} catch (NullPointerException e) {
 
-			System.out.println("Missing date input");
+			LOGGER.log(Level.SEVERE, "Exception occur", e);
 		}
 
 		return d;
 
-	}
-
-	private static long checkDaysBetween(LocalDate start, LocalDate stop) {
-		return ChronoUnit.DAYS.between(start, stop);
 	}
 
 }

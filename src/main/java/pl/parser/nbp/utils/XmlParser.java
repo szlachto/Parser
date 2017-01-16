@@ -1,8 +1,11 @@
-package pl.parser.nbp;
+package pl.parser.nbp.utils;
 
 import java.io.IOException;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,26 +17,28 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class XMLParser {
+public class XmlParser {
+
+	private static final Logger LOGGER = Logger.getLogger(XmlParser.class.getName());
 
 	private Document document;
 
-	public XMLParser(URLConnection conn) {
+	public XmlParser(URLConnection conn) {
 
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			document = builder.parse(conn.getInputStream());
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 
-			System.out.println("Not data found");
+			LOGGER.log(Level.WARNING, "Exception occur", e);
 
 		}
 
 	}
 
-	public ArrayList<Double> getListOfSpecificTag(String tag) {
+	public List<Double> getListOfSpecificTag(String tag) {
 
-		ArrayList<Double> list = new ArrayList<Double>();
+		List<Double> list = new ArrayList<>();
 
 		try {
 			NodeList nList = document.getElementsByTagName("Rate");
@@ -46,7 +51,8 @@ public class XMLParser {
 				}
 			}
 		} catch (NullPointerException e) {
-			System.out.println("empty list");
+
+			LOGGER.log(Level.WARNING, "Exception occur", e);
 		}
 
 		return list;

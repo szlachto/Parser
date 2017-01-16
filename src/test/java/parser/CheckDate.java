@@ -5,12 +5,12 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import pl.parser.nbp.DateUtil;
+import pl.parser.nbp.utils.DateUtil;
 
 public class CheckDate {
 
 	@Test
-	public void DatesChecker() {
+	public void datesChecker() {
 
 		assertTrue(DateUtil.validateDates("2016-10-10", "2016-10-10"));
 		assertTrue(DateUtil.validateDates("2016-10-10", "2016-10-11"));

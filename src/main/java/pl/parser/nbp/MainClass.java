@@ -1,7 +1,9 @@
 package pl.parser.nbp;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import pl.parser.nbp.errors.ClientCreationCurrencyError;
 import pl.parser.nbp.errors.ClientCreationDateError;
@@ -29,17 +31,22 @@ public class MainClass {
 			NbpClient nbpClient = new NbpClient();
 			nbpClient.connect(url);
 
-			System.out.printf("Average bid: %.4f\n", MathUtil.getAverage(nbpClient.getCurrency().getBid()));
-			System.out.printf("Standard deviation for ask: %.4f\n",
-					MathUtil.getStdDev(nbpClient.getCurrency().getAsk()));
+			List<Double> askList = nbpClient.getCurrency().getRates().stream().map(a -> a.getAsk().doubleValue())
+					.collect(Collectors.toList());
+
+			List<Double> bidList = nbpClient.getCurrency().getRates().stream().map(b -> b.getBid().doubleValue())
+					.collect(Collectors.toList());
+
+			System.out.printf("Average bid: %.4f\n", MathUtil.getAverage(bidList));
+			System.out.printf("Standard deviation for ask: %.4f\n", MathUtil.getStdDev(askList));
 
 		} catch (ClientCreationCurrencyError | ClientCreationDateError e) {
 
-			LOGGER.log(Level.WARNING, "Exception occur", e);
+			LOGGER.log(Level.WARNING, "Wrong currency code or datas", e);
 
 		} catch (ArrayIndexOutOfBoundsException e) {
 
-			LOGGER.log(Level.SEVERE, "Exception occur", e);
+			LOGGER.log(Level.SEVERE, "There is no valid number of arguments. The correct number is 3", e);
 
 		}
 

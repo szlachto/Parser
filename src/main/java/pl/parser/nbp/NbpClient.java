@@ -31,7 +31,7 @@ public class NbpClient {
 
 		catch (MalformedURLException e) {
 
-			LOGGER.log(Level.SEVERE, "Exception occur", e);
+			LOGGER.log(Level.SEVERE, "URL is bad" + urlString, e);
 		}
 
 		catch (IOException e) {

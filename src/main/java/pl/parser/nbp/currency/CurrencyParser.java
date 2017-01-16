@@ -1,6 +1,7 @@
 package pl.parser.nbp.currency;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class CurrencyParser {
 			document = builder.parse(conn.getInputStream());
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 
-			LOGGER.log(Level.WARNING, "Exception occur", e);
+			LOGGER.log(Level.WARNING, "Cannot parse xml ", e);
 
 		}
 
@@ -53,24 +54,28 @@ public class CurrencyParser {
 			}
 
 			nList = document.getElementsByTagName("Rate");
-			List<Double> ask = new ArrayList<>();
-			List<Double> bid = new ArrayList<>();
+			List<Rate> rates = new ArrayList<>();
 
 			for (int i = 0; i < nList.getLength(); i++) {
 				Node nNode = nList.item(i);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Rate rate = new Rate();
 					Element eElement = (Element) nNode;
-					ask.add(new Double(eElement.getElementsByTagName("Ask").item(0).getTextContent()));
-					bid.add(new Double(eElement.getElementsByTagName("Bid").item(0).getTextContent()));
+
+					rate.setAsk(new BigDecimal(eElement.getElementsByTagName("Ask").item(0).getTextContent()));
+					rate.setBid(new BigDecimal(eElement.getElementsByTagName("Bid").item(0).getTextContent()));
+					rate.setEffectiveDate(eElement.getElementsByTagName("EffectiveDate").item(0).getTextContent());
+					rate.setNumber(eElement.getElementsByTagName("No").item(0).getTextContent());
+					rates.add(rate);
+
 				}
 			}
 
-			currency.setAsk(ask);
-			currency.setBid(bid);
+			currency.setRates(rates);
 
 		} catch (NullPointerException e) {
 
-			LOGGER.log(Level.WARNING, "Exception occur", e);
+			LOGGER.log(Level.WARNING, "There is no element by tag name", e);
 		}
 
 		return currency;

@@ -6,8 +6,7 @@ public class Currency {
 
 	private String currrency;
 	private String code;
-	private List<Double> bid;
-	private List<Double> ask;
+	private List<Rate> rates;
 
 	public String getCurrrency() {
 		return currrency;
@@ -25,20 +24,12 @@ public class Currency {
 		this.code = code;
 	}
 
-	public List<Double> getBid() {
-		return bid;
+	public List<Rate> getRates() {
+		return rates;
 	}
 
-	public void setBid(List<Double> bid) {
-		this.bid = bid;
-	}
-
-	public List<Double> getAsk() {
-		return ask;
-	}
-
-	public void setAsk(List<Double> ask) {
-		this.ask = ask;
+	public void setRates(List<Rate> rates) {
+		this.rates = rates;
 	}
 
 }

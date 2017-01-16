@@ -46,11 +46,11 @@ public class DateValidator {
 
 		} catch (DateTimeParseException e) {
 
-			LOGGER.log(Level.SEVERE, "Exception occur", e);
+			LOGGER.log(Level.SEVERE, "Cannot parse date: " + date, e);
 
 		} catch (NullPointerException e) {
 
-			LOGGER.log(Level.SEVERE, "Exception occur", e);
+			LOGGER.log(Level.SEVERE, "Null instead of date", e);
 		}
 
 		return d;

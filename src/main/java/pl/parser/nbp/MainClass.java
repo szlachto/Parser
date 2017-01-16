@@ -5,7 +5,9 @@ import java.util.logging.Logger;
 
 import pl.parser.nbp.errors.ClientCreationCurrencyError;
 import pl.parser.nbp.errors.ClientCreationDateError;
+import pl.parser.nbp.utils.InputValidator;
 import pl.parser.nbp.utils.MathUtil;
+import pl.parser.nbp.utils.UrlCreator;
 
 public class MainClass {
 
@@ -15,11 +17,21 @@ public class MainClass {
 
 		try {
 
-			NbpClient nbpClient = new NbpClient(args[0], args[1], args[2]);
-			nbpClient.connect();
+			String code = args[0];
+			String startDate = args[1];
+			String stopDate = args[2];
 
-			System.out.printf("Average bid: %.4f\n", MathUtil.getAverage(nbpClient.getCurrencyBidList()));
-			System.out.printf("Standard deviation for ask: %.4f\n", MathUtil.getStdDev(nbpClient.getCurrencyAskList()));
+			InputValidator inputValidator = new InputValidator(code, startDate, stopDate);
+			inputValidator.validate();
+
+			String url = UrlCreator.buildURL(code, startDate, stopDate);
+
+			NbpClient nbpClient = new NbpClient();
+			nbpClient.connect(url);
+
+			System.out.printf("Average bid: %.4f\n", MathUtil.getAverage(nbpClient.getCurrency().getBid()));
+			System.out.printf("Standard deviation for ask: %.4f\n",
+					MathUtil.getStdDev(nbpClient.getCurrency().getAsk()));
 
 		} catch (ClientCreationCurrencyError | ClientCreationDateError e) {
 

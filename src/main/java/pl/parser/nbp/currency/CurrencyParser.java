@@ -1,4 +1,4 @@
-package pl.parser.nbp.utils;
+package pl.parser.nbp.currency;
 
 import java.io.IOException;
 import java.net.URLConnection;
@@ -17,13 +17,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class XmlParser {
+public class CurrencyParser {
 
-	private static final Logger LOGGER = Logger.getLogger(XmlParser.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(CurrencyParser.class.getName());
 
 	private Document document;
 
-	public XmlParser(URLConnection conn) {
+	public CurrencyParser(URLConnection conn) {
 
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -36,26 +36,44 @@ public class XmlParser {
 
 	}
 
-	public List<Double> getListOfSpecificTag(String tag) {
+	public Currency getCurrency() {
 
-		List<Double> list = new ArrayList<>();
+		Currency currency = new Currency();
 
 		try {
-			NodeList nList = document.getElementsByTagName("Rate");
+
+			NodeList nList = document.getElementsByTagName("ExchangeRatesSeries");
+			Node node = nList.item(0);
+
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) node;
+				currency.setCurrrency(eElement.getElementsByTagName("Currency").item(0).getTextContent());
+				currency.setCode(eElement.getElementsByTagName("Code").item(0).getTextContent());
+
+			}
+
+			nList = document.getElementsByTagName("Rate");
+			List<Double> ask = new ArrayList<>();
+			List<Double> bid = new ArrayList<>();
 
 			for (int i = 0; i < nList.getLength(); i++) {
 				Node nNode = nList.item(i);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element eElement = (Element) nNode;
-					list.add(new Double(eElement.getElementsByTagName(tag).item(0).getTextContent()));
+					ask.add(new Double(eElement.getElementsByTagName("Ask").item(0).getTextContent()));
+					bid.add(new Double(eElement.getElementsByTagName("Bid").item(0).getTextContent()));
 				}
 			}
+
+			currency.setAsk(ask);
+			currency.setBid(bid);
+
 		} catch (NullPointerException e) {
 
 			LOGGER.log(Level.WARNING, "Exception occur", e);
 		}
 
-		return list;
+		return currency;
 	}
 
 }

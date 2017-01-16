@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import pl.parser.nbp.utils.CurrencySymbols;
+import pl.parser.nbp.currency.CurrencySymbols;
 
 public class CheckSymbols {
 

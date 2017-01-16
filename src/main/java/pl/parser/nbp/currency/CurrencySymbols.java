@@ -1,4 +1,4 @@
-package pl.parser.nbp.utils;
+package pl.parser.nbp.currency;
 
 public enum CurrencySymbols {
 

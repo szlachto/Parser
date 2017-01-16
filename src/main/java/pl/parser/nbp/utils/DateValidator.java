@@ -6,9 +6,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DateUtil {
+public class DateValidator {
 
-	private static final Logger LOGGER = Logger.getLogger(DateUtil.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(DateValidator.class.getName());
 
 	public static boolean validateDates(String start, String stop) {
 

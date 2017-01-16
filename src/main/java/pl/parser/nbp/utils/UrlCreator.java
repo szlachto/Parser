@@ -1,6 +1,6 @@
 package pl.parser.nbp.utils;
 
-public class UrlUtil {
+public class UrlCreator {
 
 	public static String buildURL(String currency, String startTime, String stopTime) {
 

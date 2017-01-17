@@ -21,10 +21,8 @@ public class CheckDate {
 		assertFalse(DateValidator.validateDates("2016-10-10", "2016-10-1"));
 		assertFalse(DateValidator.validateDates("2002-01-02", "2002-04-06"));
 		assertFalse(DateValidator.validateDates("2002-01-01", "2002-04-01"));
-		assertFalse(DateValidator.validateDates("2017-01-02", "2017-01-16"));
-		assertFalse(DateValidator.validateDates(null, "2016-10-10"));
-		assertFalse(DateValidator.validateDates(null, null));
-		assertFalse(DateValidator.validateDates("2016-10-10", null));
+		assertFalse(DateValidator.validateDates("2017-01-02", "2017-01-18"));
+		assertFalse(DateValidator.validateDates("", "2017-01-18"));
 
 	}
 

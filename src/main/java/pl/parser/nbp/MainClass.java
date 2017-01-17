@@ -1,13 +1,12 @@
 package pl.parser.nbp;
 
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
+
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import pl.parser.nbp.errors.ClientCreationCurrencyError;
 import pl.parser.nbp.errors.ClientCreationDateError;
-import pl.parser.nbp.utils.MathUtil;
 import pl.parser.nbp.utils.UrlCreator;
 import pl.parser.nbp.validator.InputValidator;
 
@@ -31,14 +30,13 @@ public class MainClass {
 			NbpClient nbpClient = new NbpClient();
 			nbpClient.connect(url);
 
-			List<Double> askList = nbpClient.getCurrency().getRates().stream().map(a -> a.getAsk().doubleValue())
-					.collect(Collectors.toList());
+			DescriptiveStatistics dsAsk = new DescriptiveStatistics(
+					nbpClient.getCurrency().getRates().stream().mapToDouble(b -> b.getAsk().doubleValue()).toArray());
+			DescriptiveStatistics dsBid = new DescriptiveStatistics(
+					nbpClient.getCurrency().getRates().stream().mapToDouble(b -> b.getBid().doubleValue()).toArray());
 
-			List<Double> bidList = nbpClient.getCurrency().getRates().stream().map(b -> b.getBid().doubleValue())
-					.collect(Collectors.toList());
-
-			System.out.printf("Average bid: %.4f\n", MathUtil.getAverage(bidList));
-			System.out.printf("Standard deviation for ask: %.4f\n", MathUtil.getStdDev(askList));
+			System.out.printf("Standard deviation for ask: %.4f\n", dsAsk.getStandardDeviation());
+			System.out.printf("Average bid: %.4f\n", dsBid.getMean());
 
 		} catch (ClientCreationCurrencyError | ClientCreationDateError e) {
 

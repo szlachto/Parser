@@ -12,29 +12,33 @@ public class DateValidator {
 
 	public static boolean validateDates(String start, String stop) {
 
-		final LocalDate INIT_DATE = LocalDate.parse("2002-01-02");
+		final LocalDate FIRST_CURRENCY_RATE = LocalDate.parse("2002-01-02");
 		final LocalDate NOW = LocalDate.now();
 		final int MAX_DAY_PERIOD = 93;
-		final int MIN_DAY_PERIOD = 1;
 
 		LocalDate startDate, stopDate;
 
-		if ((startDate = parseDate(start)) != null && (stopDate = parseDate(stop)) != null) {
-
-			if (!INIT_DATE.isAfter(startDate) && !stopDate.isAfter(NOW)) {
-
-				long period = ChronoUnit.DAYS.between(startDate, stopDate);
-
-				if (period >= MIN_DAY_PERIOD && period <= MAX_DAY_PERIOD) {
-
-					return true;
-
-				}
-			}
-
+		if ((startDate = parseDate(start)) == null || (stopDate = parseDate(stop)) == null) {
+			return false;
 		}
 
-		return false;
+		if (startDate.isAfter(stopDate)) {
+			return false;
+		}
+
+		if (FIRST_CURRENCY_RATE.isAfter(startDate)) {
+			return false;
+		}
+
+		if (stopDate.isAfter(NOW)) {
+			return false;
+		}
+
+		if (ChronoUnit.DAYS.between(startDate, stopDate) > MAX_DAY_PERIOD) {
+			return false;
+		}
+
+		return true;
 	}
 
 	private static LocalDate parseDate(String date) {
@@ -46,11 +50,8 @@ public class DateValidator {
 
 		} catch (DateTimeParseException e) {
 
-			LOGGER.log(Level.SEVERE, "Cannot parse date: " + date, e);
+			LOGGER.log(Level.SEVERE, "Cannot parse date: " + date);
 
-		} catch (NullPointerException e) {
-
-			LOGGER.log(Level.SEVERE, "Null instead of date", e);
 		}
 
 		return d;
